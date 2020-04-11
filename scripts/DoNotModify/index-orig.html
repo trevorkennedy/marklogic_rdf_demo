@@ -1,0 +1,199 @@
+
+<!doctype html>
+<html>
+
+  <script type="text/javascript" src="src/vis.js"></script>
+  <link href="css/vis-network.min.css" rel="stylesheet" type="text/css" />
+  <link href="css/slider.css" rel="stylesheet" type="text/css" />
+  <link href="css/search-bar.css" rel="stylesheet" type="text/css" />
+
+  <style type="text/css">
+    #mynetwork {
+      width: 1776px;
+      height: 800px;
+      border: 1px solid lightgray;
+    }
+  </style>
+
+  <head>
+
+    <title>Linked Data Visualizer</title>
+
+    <script type="text/javascript">
+      var host = "HOSTNAME";
+      var port = PORTNUMBER;
+      var arrows = true;
+      var labels = true;
+      var physics = false;
+      var data = new Object;
+      var dataResults = [];
+      var resultArray = [];
+      var nodes = {};
+      var edges = {};
+      var edgesData = '';
+      var nodesData = '';
+      var optionsEdges = {};
+      var optionsNodes = {};
+      var nData = '';
+      var eData = '';
+      var container = '';
+      var options = {};
+      var orderBys = '';
+      var prefixes = '';
+      var select = '';
+      var postFix = '';
+      var searchText = '';
+      var searchValue = '';
+      var limit = 50;
+      var shapeSize = 80;
+      var layout = {};
+
+      optionsEdges = {"arrows":{"to":{"enabled":true,"scaleFactor":1,"type":"arrow"}},"smooth":{"enabled":true,"type":"straightCross","roundness":0}};
+      optionsNodes = {"shape": "circle", "size": shapeSize, "widthConstraint": {"minimum": shapeSize, "maximum": shapeSize}};
+//      edges.arrows = {"to": {"enabled": true, "scaleFactor": 1, "type": "arrow"}};
+//      edges.smooth = {"enabled": true, "type": "discrete", "roundness": 0};
+//      nodes.shape = "circle";
+//      nodes.widthConstraint = true;
+	  layout.improvedLayout = true;
+	  layout.hierarchical = {"enabled": false};
+	  layout.randomSeed = 10;
+	  options = {"edges": optionsEdges, "physics": physics, "nodes": optionsNodes, "layout": layout};
+
+      select = "select ?sub ?pre ?obj where { ?sub ?pre ?obj } ";
+      prefixes = "";
+      orderBys = 'sub,pre,obj ';
+      limit = document.getElementById("limit");
+      if(limit == null) {
+        limit = 50;
+      } else {
+        limit = document.getElementById("limit").value;
+      };
+      postFix = ' limit ' + limit;
+
+      function queryService() {
+        var url = "http://" + host + ":" + port + "/LATEST/resources/getData";
+
+        if(XMLHttpRequest) {
+          limit = document.getElementById("limit");
+          if(limit == null) {
+            limit = 50;
+          } else {
+            limit = document.getElementById("limit").value;
+          };
+          postFix = ' limit ' + limit;
+          searchValue = document.getElementById("searchData").value;
+          document.getElementById("searchData").value = searchValue;
+          var request = new XMLHttpRequest();
+//            if("withCredentials" in request) {
+     // Firefox 3.5 and Safari 4
+          request.open('POST', url, true);
+          request.withCredentials = "true";
+
+          request.onreadystatechange = function() {
+          data = this.responseText;
+          dataResults = JSON.parse(data);
+          resultArray = [];
+          nData = '[';
+          for(d=0;d<dataResults.results.nodes.length;d++) {
+            nData = nData + '{"id": ' + dataResults.results.nodes[d].id + ', "label": "' + dataResults.results.nodes[d].label + '"},';
+          };
+          nData = JSON.parse(nData.substring(0,nData.length - 1) + ']');
+
+          eData = '[';
+          for (d=0;d<dataResults.results.edges.length;d++) {
+            eData = eData + '{"from": ' + dataResults.results.edges[d].from + ', "to": ' + dataResults.results.edges[d].to + ', "label": "' + dataResults.results.edges[d].label + '", "font": {"align": "' + dataResults.results.edges[d].font.align + '"}},';
+          };
+          eData = JSON.parse(eData.substring(0,eData.length - 1) + ']');
+
+                  // create an array with nodes
+        container = document.getElementById('mynetwork');
+        buildGraph(container, nData, eData, options);
+          };
+        request.send('{"prefixes": "' + prefixes + '", "select": "' + select + '", "orderBys": "' + orderBys + '", "postFix": "' + postFix + '", "searchText": "' + searchValue + '"}');
+        };
+      };
+  //      };
+    </script>
+  </head>
+  <body>
+      <p style="font-size:24px;color:blue;">Linked Data Document Delivery</p>
+      <p style="font-size:16px;color:black;">Maximum Results (5-100): <input style="font-size:16px;" id="limit" type="number" min="5" max="100" value="50" onclick="handleLimitClick(this)">
+      Arrows: <input type="checkbox" style="font-size:16px;" id="arrows" name="arrows" onclick="handleArrowsClick(this)" checked/>
+      Physics: <input type="checkbox" style="font-size:16px;" id="physics" name="physics" onclick="handlePhysicsClick(this)" unchecked/>
+      Search:  <input type="text" style="font-size:16px;width:600px" id="searchData" name="searchData" placeholder="search terms"/>
+      <input type="image" submit="submit" onclick="handleSearchBox()" src="../icons/searchGlass2.png" style="width:15px;height:15px;"/>
+
+    <script type="text/javascript">
+      function buildGraph(container, nData, eData, options) {
+        container = document.getElementById('mynetwork');
+        nodesData = new vis.DataSet(nData); // dataResults.nodes
+        edgesData = new vis.DataSet(eData); // dataResults.edges
+        data = {
+          nodes: nodesData,
+          edges: edgesData
+        };
+//		options = {"edges": optionsEdges, "physics": physics, "nodes": optionsNodes, "layout": layout};
+        var network = new vis.Network(container, data, options);
+      };
+    </script>
+
+    <script type="text/javascript">
+      function handleArrowsClick(cb) {
+
+        if(optionsEdges.arrows.to.enabled) {
+          optionsEdges.arrows.to.enabled = false;
+          cb.unchecked;
+        } else {
+	       	optionsEdges.arrows.to.enabled = true;
+          cb.checked;
+        };
+        buildGraph(container, nData, eData, options);
+      };
+    </script>
+
+    <script type="text/javascript">
+      function handleLabelsClick(cb) {
+        if(labels) {
+          labels = false;
+          cb.unchecked;
+        } else {
+          labels = true;
+          cb.checked;
+        };
+        buildGraph(container, nData, eData, options);
+      };
+    </script>
+
+    <script type="text/javascript">
+      function handlePhysicsClick(cb) {
+        if(physics) {
+          options.physics = false;
+          physics = false;
+          cb.unchecked;
+        } else {
+          options.physics = true;
+          physics = true;
+          cb.checked;
+        };
+        buildGraph(container, nData, eData, options);
+      };
+    </script>
+
+    <script type="text/javascript">
+      function handleLimitClick(nm) {
+        limit = document.getElementById("limit").value;
+      };
+    </script>
+    <script type="text/javascript">
+      function handleSearchBox() {
+        searchValue = document.getElementById("searchData").value;
+        document.getElementById("searchData").value = searchValue;
+        limit = document.getElementById("limit").value;
+        document.getElementById("limit").value = limit;
+        queryService();
+        buildGraph(container, nData, eData, options);
+      };
+    </script>
+    <div id="mynetwork"></div>
+  </body>
+</html>

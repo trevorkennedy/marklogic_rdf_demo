@@ -1,2 +1,3 @@
-# marklogic_rdf_demo
- 
+# MarkLogic RDF Demo
+
+See install.pdf for instructions

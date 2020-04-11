@@ -1,0 +1,60 @@
+'use strict'; 
+ 
+declareUpdate(); 
+ 
+for(let g of cts.uriMatch('*.xml')) { 
+  xdmp.documentDelete(g); 
+}; 
+for(let g of cts.uriMatch('*.json')) { 
+  xdmp.documentDelete(g); 
+}; 
+
+if(fn.exists(fn.doc('http://marklogic.com/semantics#default-graph'))) {
+	xdmp.documentDelete('http://marklogic.com/semantics#default-graph');
+};
+ 
+const sem = require('/MarkLogic/semantics.xqy'); 
+
+sem.rdfInsert(sem.triple(sem.iri('http://Automobile'),sem.iri('http://hasA'),'http://Engine'));
+sem.rdfInsert(sem.triple(sem.iri('http://Ford Focus'),sem.iri('http://isA'),'http://Automobile'));
+sem.rdfInsert(sem.triple(sem.iri('http://Ford Focus'),sem.iri('http://hasModel'),'http://S Sedan'));
+sem.rdfInsert(sem.triple(sem.iri('http://Ford Focus'),sem.iri('http://hasModel'),'http://SE Sedan'));
+sem.rdfInsert(sem.triple(sem.iri('http://Ford Focus'),sem.iri('http://hasModel'),'http://Titanium Sedan'));
+sem.rdfInsert(sem.triple(sem.iri('http://Ford Focus'),sem.iri('http://hasAn'),'http://Engine'));
+sem.rdfInsert(sem.triple(sem.iri('http://S Sedan'),sem.iri('http://hasEngineType'),'http://2.OL Ti-VCT'));
+sem.rdfInsert(sem.triple(sem.iri('http://SE Sedan'),sem.iri('http://hasEngineType'),'http://1.0L EcoBoost'));
+sem.rdfInsert(sem.triple(sem.iri('http://Titanium Sedan'),sem.iri('http://hasEngineType'),'http://2.OL Ti-VCT'));
+sem.rdfInsert(sem.triple(sem.iri('http://Engine'),sem.iri('http://hasA'),'http://Block'));
+sem.rdfInsert(sem.triple(sem.iri('http://Block'),sem.iri('http://hasA'),'http://Valve Cover'));
+sem.rdfInsert(sem.triple(sem.iri('http://Valve Cover'),sem.iri('http://hasA'),'http://Gasket'));
+sem.rdfInsert(sem.triple(sem.iri('http://Valve Cover'),sem.iri('http://has'),'http://Locking Bolts'));
+sem.rdfInsert(sem.triple(sem.iri('http://Block'),sem.iri('http://has'),'http://Pistons'));
+sem.rdfInsert(sem.triple(sem.iri('http://Pistons'),sem.iri('http://have'),'http://Rings'));
+sem.rdfInsert(sem.triple(sem.iri('http://Rings'),sem.iri('http://thereIsA'),'http://Compression Ring'));
+sem.rdfInsert(sem.triple(sem.iri('http://Rings'),sem.iri('http://thereIsA'),'http://Oil Ring'));
+sem.rdfInsert(sem.triple(sem.iri('http://Rings'),sem.iri('http://thereIsA'),'http://Groove Ring'));
+sem.rdfInsert(sem.triple(sem.iri('http://Automobile'),sem.iri('http:/hasA'),'http://Passenger Cabin'));
+sem.rdfInsert(sem.triple(sem.iri('http://S Sedan'),sem.iri('http://seats'),'4')); 
+sem.rdfInsert(sem.triple(sem.iri('http://SE Sedan'),sem.iri('http://seats'),'5')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Titanium Sedan'),sem.iri('http://seats'),'4')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Passenger Cabin'),sem.iri('http://canContain'),'http://Seats')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Automobile'),sem.iri('http://hasAn'),'http://Interior')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Interior'),sem.iri('http://hasA'),sem.iri('http://Dashboard'))); 
+sem.rdfInsert(sem.triple(sem.iri('http://Interior'),sem.iri('http://hasA'),'http://Drivers Seat')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Interior'),sem.iri('http://hasA'),'http://Passenger Seat')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Interior'),sem.iri('http://mayHaveA'),'http://Car Seat')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Automobile'),sem.iri('http://hasA'),'http://Trunk')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Trunk'),sem.iri('http://has'),'http://Trunk Lid')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Trunk'),sem.iri('http://hasA'),'http://Spare Tire')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Trunk'),sem.iri('http://hasA'),'http://Jack')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Trunk'),sem.iri('http://shouldHaveA'),'http://Lug Wrench')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Automobile'),sem.iri('http://hasA'),'http://Seating Area')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Trunk'),sem.iri('http://hasA'),'http://Lid')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Lid'),sem.iri('http://mayHaveA'),'http://Spoiler')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Trunk'),sem.iri('http://hasA'),sem.iri('http://Lock'))); 
+sem.rdfInsert(sem.triple(sem.iri('http://Dashboard'),sem.iri('http://has'),sem.iri('http://Gauges'))); 
+sem.rdfInsert(sem.triple(sem.iri('http://Gauges'),sem.iri('http://are'),sem.iri('http://Speed'))); 
+sem.rdfInsert(sem.triple(sem.iri('http://Gauges'),sem.iri('http://are'),sem.iri('http://Fuel'))); 
+sem.rdfInsert(sem.triple(sem.iri('http://Gauges'),sem.iri('http://are'),sem.iri('http://Oil Pressure'))); 
+sem.rdfInsert(sem.triple(sem.iri('http://Gauges'),sem.iri('http://are'),sem.iri('http://Tachometer'))); 
+sem.rdfInsert(sem.triple(sem.iri('http://Tachometer'),sem.iri('http://hasA'),sem.iri('http://Red Line'))); 

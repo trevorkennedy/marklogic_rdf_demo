@@ -1,0 +1,37 @@
+span.screen-reader-text {
+    display: none;
+}
+
+.site-search {
+    border: 1px solid #CCC;
+    display: inline-block;
+    margin: 10px 0;
+}
+
+.site-search input:focus,
+.site-search button:focus {
+    outline: none;
+}
+
+.site-search .search-field {
+    background: none;
+    border: none;
+    border-color: transparent;
+    float:left;
+    font-size: 0.8rem;
+    height: 36px;
+    padding: 0 6px 0 6px;
+    -webkit-appearance: none;
+}
+
+.site-search button {
+    background:none;
+    border: none;
+    border-color: transparent;
+    float:left;
+    padding: 7px 7px 7px 0;
+}
+
+.site-search button img {
+    cursor: pointer;
+}

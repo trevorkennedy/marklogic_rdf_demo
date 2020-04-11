@@ -1,0 +1,65 @@
+'use strict'; 
+ 
+declareUpdate(); 
+ 
+for(let g of cts.uriMatch('*.xml')) { 
+  xdmp.documentDelete(g); 
+}; 
+for(let g of cts.uriMatch('*.json')) { 
+  xdmp.documentDelete(g); 
+}; 
+
+if(fn.exists(fn.doc('http://marklogic.com/semantics#default-graph'))) {
+	xdmp.documentDelete('http://marklogic.com/semantics#default-graph');
+};
+ 
+const sem = require('/MarkLogic/semantics.xqy'); 
+ 
+sem.rdfInsert(sem.triple(sem.iri('http://Turbine Engine'),sem.iri('http://usesA'),'http://Cowling')); 
+sem.rdfInsert(sem.triple(sem.iri('http://787'),sem.iri('http://isA'),'http://Plane')); 
+sem.rdfInsert(sem.triple(sem.iri('http://777'),sem.iri('http://isA'),'http://Plane')); 
+sem.rdfInsert(sem.triple(sem.iri('http://737'),sem.iri('http://isA'),'http://Plane')); 
+sem.rdfInsert(sem.triple(sem.iri('http://737'),sem.iri('http://hasModel'),'700')); 
+sem.rdfInsert(sem.triple(sem.iri('http://737'),sem.iri('http://hasModel'),'800')); 
+sem.rdfInsert(sem.triple(sem.iri('http://737'),sem.iri('http://hasModel'),'900')); 
+sem.rdfInsert(sem.triple(sem.iri('700'),sem.iri('http://seatsOnSouthwest'),'143')); 
+sem.rdfInsert(sem.triple(sem.iri('800'),sem.iri('http://seatsOnSouthwest'),'175')); 
+sem.rdfInsert(sem.triple(sem.iri('900'),sem.iri('http://seatsOnSouthwest'),'NA')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Fuselage'),sem.iri('http://canContainA'),'http://Cabin')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Fuselage'),sem.iri('http://canContain'),'http://Cargo')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Plane'),sem.iri('http://containsA'),'http://Cockpit')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Cockpit'),sem.iri('http://hasA'),sem.iri('http://Instrument Panel'))); 
+sem.rdfInsert(sem.triple(sem.iri('http://Cockpit'),sem.iri('http://hasA'),'http://Pilot Seat')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Cockpit'),sem.iri('http://hasA'),'http://Co-Pilot Seat')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Cockpit'),sem.iri('http://mayHaveA'),'http://Jump Seat')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Plane'),sem.iri('http://hasA'),'http://Wing')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Wing'),sem.iri('http://has'),'http://Aileron')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Plane'),sem.iri('http://hasA'),'http://Tail')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Wing'),sem.iri('http://hasA'),'http://Winglet')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Wing'),sem.iri('http://hasA'),'http://Horizontal Stablizer')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Wing'),sem.iri('http://generates'),'http://Lift')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Plane'),sem.iri('http://hasA'),'http://Fuselage')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Wing'),sem.iri('http://hasA'),'http://Spoiler')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Spoiler'),sem.iri('http://manages'),'http://Lift, Drag and Roll')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Wing'),sem.iri('http://has'),'http://Flaps')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Flaps'),sem.iri('http://manages'),'http://Lift and Drag')); 
+sem.rdfInsert(sem.triple(sem.iri('http://Aileron'),sem.iri('http://changes'),sem.iri('http://Roll'))); 
+sem.rdfInsert(sem.triple(sem.iri('http://Vertical Stabilizer'),sem.iri('http://hasA'),sem.iri('http://Rudder'))); 
+sem.rdfInsert(sem.triple(sem.iri('http://Rudder'),sem.iri('http://changes'),sem.iri('http://Yaw'))); 
+sem.rdfInsert(sem.triple(sem.iri('http://Tail'),sem.iri('http://hasA'),sem.iri('http://Elevator'))); 
+sem.rdfInsert(sem.triple(sem.iri('http://Tail'),sem.iri('http://hasA'),sem.iri('http://Vertical Stabilizer'))); 
+sem.rdfInsert(sem.triple(sem.iri('http://Elevator'),sem.iri('http://changes'),sem.iri('http://Pitch'))); 
+sem.rdfInsert(sem.triple(sem.iri('http://Vertical Stabilizer'),sem.iri('http://controls'),sem.iri('http://Yaw'))); 
+sem.rdfInsert(sem.triple(sem.iri('http://Wing'),sem.iri('http://hasA'),sem.iri('http://Turbine Engine'))); 
+sem.rdfInsert(sem.triple(sem.iri('http://Turbine Engine'),sem.iri('http://delivers'),sem.iri('http://Thrust'))); 
+sem.rdfInsert(sem.triple(sem.iri('http://Winglet'),sem.iri('http://decreases'),sem.iri('http://Drag'))); 
+sem.rdfInsert(sem.triple(sem.iri('http://Horizontal Stablizer'),sem.iri('http://controls'),sem.iri('http://Roll'))); 
+sem.rdfInsert(sem.triple(sem.iri('http://Empennage'),sem.iri('http://isTheSameAsA'),sem.iri('http://Tail'))); 
+sem.rdfInsert(sem.triple(sem.iri('http://Wing'),sem.iri('http://has'),sem.iri('http://Slats'))); 
+sem.rdfInsert(sem.triple(sem.iri('http://Slats'),sem.iri('http://control'),sem.iri('http://Lift'))); 
+sem.rdfInsert(sem.triple(sem.iri('http://Instrument Panel'),sem.iri('http://has'),sem.iri('http://Gauges'))); 
+sem.rdfInsert(sem.triple(sem.iri('http://Gauges'),sem.iri('http://are'),sem.iri('http://Altitude'))); 
+sem.rdfInsert(sem.triple(sem.iri('http://Gauges'),sem.iri('http://are'),sem.iri('http://Wind Speed'))); 
+sem.rdfInsert(sem.triple(sem.iri('http://Gauges'),sem.iri('http://are'),sem.iri('http://Directional'))); 
+sem.rdfInsert(sem.triple(sem.iri('http://Gauges'),sem.iri('http://are'),sem.iri('http://Air Speed'))); 
+sem.rdfInsert(sem.triple(sem.iri('http://Air Speed'),sem.iri('http://alsoMeasures'),sem.iri('http://Ground Speed'))); 

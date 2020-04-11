@@ -1,0 +1,10 @@
+{ "rest-api": {
+	"name": "linked",
+	"database": "/linked",
+	"modules-database": "",
+	"forests-per-host": "1",
+	"error-format": "json",
+	"xdbc-enabled": "true",
+	"port": "8001"
+	}
+}
